@@ -1,13 +1,11 @@
 const path = require('path');
-const webpack = require('webpack');
 
-const entry = './src/js/main.jsx';
-const jsPath = path.join(__dirname, 'src', 'js');
+const entry = './src/js/main.tsx';
 
 module.exports = {
   mode: 'development',
   resolve: {
-    extensions: ['.js', '.jsx', '.scss'],
+    extensions: ['.js', '.ts', '.tsx', '.scss'],
     modules: [path.join(__dirname, 'src'), 'node_modules'],
   },
   entry,
@@ -20,8 +18,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: jsPath,
-        loader: 'babel-loader',
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
         exclude: /node_modules/,
       },
       {
