@@ -14,8 +14,10 @@ html {
   flex-direction: column;
 }
 
-.image {
-  width: 50%;
-  height: 50%;
-  margin-bottom: 30px;
+.chuck-close {
+  border: 1px solid black;
+}
+
+.hidden {
+  display: none;
 }

@@ -1,34 +1,39 @@
 import * as React from 'react';
 
-import { Image } from 'js/components/image';
 import { Slider } from 'js/components/slider';
+import { ChuckCloseContainer } from 'js/containers/chuck_container';
+
+import { CANVAS_SIZE, MIN_BLOCK_NUM } from 'js/constants';
 
 interface AppState {
-  imageWidth: number;
+  numBlocks: number;
 }
 
 export class App extends React.Component<{}, AppState> {
   state = {
-    imageWidth: 0,
+    numBlocks: MIN_BLOCK_NUM,
   };
 
-  private updateImageWidth = (width: number) => {
+  private updateNumBlocks = (num: number) => {
     this.setState({
-      imageWidth: width,
+      numBlocks: num,
     });
   };
 
   render() {
-    const { imageWidth } = this.state;
+    const { numBlocks } = this.state;
     return (
       <div className="app">
-        <Image className="image" name="colin_vanlang.jpg" />
-        {imageWidth}
+        <ChuckCloseContainer
+          imageName="colin_vanlang.jpg"
+          numBlocks={numBlocks}
+        />
+        {numBlocks}
         <Slider
-          min={0}
-          max={100}
-          onChange={this.updateImageWidth}
-          value={imageWidth}
+          min={MIN_BLOCK_NUM}
+          max={CANVAS_SIZE}
+          onChange={this.updateNumBlocks}
+          value={numBlocks}
         />
       </div>
     );
