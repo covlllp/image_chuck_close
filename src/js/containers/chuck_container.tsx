@@ -2,8 +2,7 @@ import * as React from 'react';
 
 import { ChuckCloseImage } from 'js/containers/chuck_image';
 import { ImageDataCollector } from 'js/containers/image_data';
-
-import { CANVAS_SIZE } from 'js/constants';
+import { getCanvasDimensions } from 'js/lib/image_data';
 
 interface ChuckCloseContainerProps {
   imageName: string;
@@ -12,15 +11,31 @@ interface ChuckCloseContainerProps {
 
 interface ChuckCloseContainerState {
   imageData: ImageData | null;
+  windowWidth: number;
+  windowHeight: number;
 }
 
 export class ChuckCloseContainer extends React.Component<
   ChuckCloseContainerProps,
   ChuckCloseContainerState
 > {
-  state: ChuckCloseContainerState = {
-    imageData: null,
-  };
+  constructor(props: ChuckCloseContainerProps) {
+    super(props);
+
+    this.state = {
+      imageData: null,
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
+    };
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
 
   private handleDataCollected = (data: ImageData) => {
     const { imageData } = this.state;
@@ -29,9 +44,22 @@ export class ChuckCloseContainer extends React.Component<
     }
   };
 
+  private updateWindowDimensions = () => {
+    this.setState({
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
+    });
+  };
+
   render() {
     const { imageName, numBlocks } = this.props;
-    const { imageData } = this.state;
+    const { imageData, windowHeight, windowWidth } = this.state;
+
+    const dimensions = getCanvasDimensions(imageData, {
+      height: windowHeight,
+      width: windowWidth,
+    });
+
     return (
       <div>
         <ImageDataCollector
@@ -43,8 +71,8 @@ export class ChuckCloseContainer extends React.Component<
           <ChuckCloseImage
             imageData={imageData}
             numBlocks={numBlocks}
-            height={CANVAS_SIZE}
-            width={CANVAS_SIZE}
+            height={dimensions.height}
+            width={dimensions.width}
           />
         ) : null}
       </div>

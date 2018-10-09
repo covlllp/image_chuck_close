@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Slider } from 'js/components/slider';
 import { ChuckCloseContainer } from 'js/containers/chuck_container';
 
-import { CANVAS_SIZE, MIN_BLOCK_NUM } from 'js/constants';
+import { STARTING_BLOCK_NUM, MAX_BLOCK_NUM, MIN_BLOCK_NUM } from 'js/constants';
 
 interface AppState {
   numBlocks: number;
@@ -11,7 +11,7 @@ interface AppState {
 
 export class App extends React.Component<{}, AppState> {
   state = {
-    numBlocks: MIN_BLOCK_NUM,
+    numBlocks: STARTING_BLOCK_NUM,
   };
 
   private updateNumBlocks = (num: number) => {
@@ -28,14 +28,19 @@ export class App extends React.Component<{}, AppState> {
           imageName="colin_vanlang.jpg"
           numBlocks={numBlocks}
         />
-        {numBlocks}
-        <Slider
-          min={MIN_BLOCK_NUM}
-          max={CANVAS_SIZE}
-          onChange={this.updateNumBlocks}
-          value={numBlocks}
-        />
+        <div className="slider-container">
+          <Slider
+            min={MIN_BLOCK_NUM}
+            max={MAX_BLOCK_NUM}
+            onChange={this.updateNumBlocks}
+            value={numBlocks}
+          />
+        </div>
       </div>
     );
   }
 }
+
+// chromecast_image_14.jpg
+// chromecast_image_33.jpg
+// colin_vanlang.jpg

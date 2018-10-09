@@ -19,6 +19,7 @@ export const Slider: React.SFC<SliderProps> = props => {
 
   return (
     <input
+      className="slider"
       type="range"
       min={min}
       max={max}

@@ -34,7 +34,7 @@ export class ImageDataCollector extends React.Component<
     if (!image) return;
     const { naturalHeight, naturalWidth } = image;
     canvas.height = naturalHeight;
-    canvas.width = naturalHeight;
+    canvas.width = naturalWidth;
     context.drawImage(image, 0, 0);
     const data = context.getImageData(0, 0, naturalWidth, naturalHeight);
     if (onDataCollected) {

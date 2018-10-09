@@ -1,3 +1,5 @@
+import { getRange } from 'js/lib/image_data';
+
 interface PainterOptions {
   height: number;
   width: number;
@@ -9,15 +11,16 @@ export class Painter {
 
   private width: number;
 
-  private numBlocks: number;
+  private numHeightBlocks: number;
+
+  private numWidthBlocks: number;
 
   private context: CanvasRenderingContext2D;
 
   constructor(options: PainterOptions) {
-    const { height, numBlocks, width } = options;
+    const { height, width } = options;
     this.height = height;
     this.width = width;
-    this.numBlocks = numBlocks;
   }
 
   get minDimension() {
@@ -25,18 +28,31 @@ export class Painter {
   }
 
   get blockWidth() {
-    return Math.floor(this.minDimension / this.numBlocks);
+    return Math.floor(this.width / this.numWidthBlocks);
   }
 
-  setCanvasOptions(
+  updateOptions(
+    blocks: {
+      width: number;
+      height: number;
+    },
     canvasElem: HTMLCanvasElement,
     context: CanvasRenderingContext2D,
   ) {
+    this.numHeightBlocks = blocks.height;
+    this.numWidthBlocks = blocks.width;
     this.context = context;
   }
 
-  paintBlock(col: number, row: number) {
-    const dim = this.blockWidth;
-    this.context.fillRect(col * dim, row * dim, dim, dim);
+  paintBlock(col: number, row: number, color?: string) {
+    const colInfo = getRange(this.width, col, this.numWidthBlocks);
+    const rowInfo = getRange(this.height, row, this.numHeightBlocks);
+    this.context.fillStyle = color || 'black';
+    this.context.fillRect(
+      colInfo.start,
+      rowInfo.start,
+      colInfo.length,
+      rowInfo.length,
+    );
   }
 }
