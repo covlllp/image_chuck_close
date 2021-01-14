@@ -3,7 +3,12 @@ import * as React from 'react';
 import { Slider } from 'js/components/slider';
 import { ChuckCloseContainer } from 'js/containers/chuck_container';
 
-import { STARTING_BLOCK_NUM, MAX_BLOCK_NUM, MIN_BLOCK_NUM } from 'js/constants';
+import {
+  IMAGE_NAME,
+  STARTING_BLOCK_NUM,
+  MAX_BLOCK_NUM,
+  MIN_BLOCK_NUM,
+} from 'js/constants';
 
 interface AppState {
   numBlocks: number;
@@ -24,10 +29,7 @@ export class App extends React.Component<{}, AppState> {
     const { numBlocks } = this.state;
     return (
       <div className="app">
-        <ChuckCloseContainer
-          imageName="colin_vanlang.jpg"
-          numBlocks={numBlocks}
-        />
+        <ChuckCloseContainer imageName={IMAGE_NAME} numBlocks={numBlocks} />
         <div className="slider-container">
           <Slider
             min={MIN_BLOCK_NUM}
